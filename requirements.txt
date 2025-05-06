@@ -1,1 +1,21 @@
-#empty requirements file
+# --- Core web service ---
+fastapi==0.110.2
+uvicorn[standard]==0.29.0
+
+# --- Testing ---
+pytest==8.2.0
+pytest-asyncio==0.23.6
+
+# --- Type checking & lint (optional but handy) ---
+ruff==0.4.2          # fast linter / formatter
+mypy==1.10.0          # static typing (optional)
+
+# --- TODO: Phase‑2/3 additions (commented for now) ---
+# langchain
+# langgraph
+# sentence-transformers
+# qdrant-client
+# streamlit
+# wandb
+# evidently
+
