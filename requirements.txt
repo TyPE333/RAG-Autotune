@@ -13,8 +13,8 @@ mypy==1.10.0          # static typing (optional)
 # --- TODO: Phase‑2/3 additions (commented for now) ---
 langchain
 langgraph==0.4.1
-# sentence-transformers
-# qdrant-client
+sentence-transformers
+qdrant-client
 # streamlit
 # wandb
 # evidently
