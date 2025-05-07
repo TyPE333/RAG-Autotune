@@ -19,5 +19,5 @@ qdrant-client
 # wandb
 # evidently
 
-
+bs4
 httpx[http2]==0.27.0
