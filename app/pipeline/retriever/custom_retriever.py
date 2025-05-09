@@ -1,16 +1,16 @@
 from typing import List
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
-from scripts.classes.base_retriever import BaseRetriever
-from config import CONFIG
+from app.pipeline.retriever.base_retriever import BaseRetriever
+from scripts.utils.config import CONFIG
 
 class Retriever(BaseRetriever):
     
-    def __init__(self, model_name=CONFIG.get("model_settings.embedding_model")):
+    def __init__(self, model_name=CONFIG.get("retriever_settings.embedding_model")):
         self.model = SentenceTransformer(model_name)
         self.client = QdrantClient(url=CONFIG.get("Qdrant.url"))
         self.collection = CONFIG.get("Qdrant.collection_name")
-        self.top_k = CONFIG.get("model_settings.top_k", 3)
+        self.top_k = CONFIG.get("retriever_settings.top_k", 3)
 
     def encode(self, query: str) -> List[float]:
         """

@@ -1,16 +1,24 @@
 from langgraph.graph import Graph, END
+from app.pipeline.retriever.custom_retriever import Retriever
+from app.pipeline.generator.local_hf_generator import HuggingFaceGenerator
+
+retriever = Retriever()
+generator = HuggingFaceGenerator()
 
 def retrieval_node(state: dict) -> dict:
     """Simulates document retrieval."""
-    state["Docs"] = ["Dummy Doc1", "Dummy Doc2"]
+    query = state["question"]
+    results = retriever.retrieve(query)
+    state["Docs"] = [r["text"] for r in results]
+    state["Scores"] = [r["score"] for r in results]
     return state
 
 def generation_node(state: dict) -> dict:
     """Generates an answer based on retrieved documents."""
     q = state.get("question", "No question provided")  
     docs = ",".join(state.get("Docs", []))  
-    
-    state["answer"] = f"Answer: {q}"
+    response = generator.generate(question=q, context_docs=docs)
+    state["answer"] = f"Answer: {response}"
     state["citations"] = f"Sources: {docs}"
 
     return state  
