@@ -1,5 +1,5 @@
 from typing import List
-from config import CONFIG
+from scripts.utils.config import CONFIG
 from utils.read_json import json_generator
 from utils.preprocessor import chunk_text, normalize_embeddings
 

@@ -3,11 +3,19 @@ data_paths:
   processed_data: "./data/processed/"
   embeddings_store: "./vector_db/"
 
-model_settings:
+retriever_settings:
   embedding_model: "all-MiniLM-L6-v2"
   vector_db: "Qdrant"
   batch_size: 32
   top_k: 5
+
+generator_settings:
+  model_name : "tiiuae/falcon-rw-1b"   # tiny version of Falcon for dev
+   # very small, useful for testing
+
+
+prompt_settings:
+  file: ""
 
 Qdrant:
   url: "http://localhost:6333"
