@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from typing import Dict
+from typing import Dict, List, Tuple
 from scripts.utils.config import CONFIG
 
 
@@ -39,3 +39,31 @@ class FeedbackLogger:
             self.conn.commit()
         except sqlite3.IntegrityError:
             print("Duplicate feedback skipped.")
+    
+    def sample_positive_pairs(self, n: int = 5) -> List[Tuple[str, str]]:
+        cursor = self.conn.execute(
+            "SELECT question, retrieved_doc_ids FROM feedback WHERE label = 'thumbs_up' ORDER BY RANDOM() LIMIT ?",
+            (n,)
+        )
+        rows = cursor.fetchall()
+        result = []
+        for q, doc_ids_json in rows:
+            try:
+                doc_ids = json.loads(doc_ids_json)
+                if doc_ids:
+                    result.append((q, doc_ids[0]))
+            except json.JSONDecodeError:
+                continue  # Skip malformed entries
+        return result
+
+    
+    def sample_negative_feedback(self, n: int = 5) -> List[Tuple[str, str]]:
+        cursor = self.conn.execute(
+            "SELECT question, retrieved_doc_ids FROM feedback WHERE label = 'thumbs_down' ORDER BY RANDOM() LIMIT ?",
+            (n,)
+        )
+        rows = cursor.fetchall()
+        return [
+            (q, json.loads(doc_ids)[0])  # top-1 doc only
+            for q, doc_ids in rows if json.loads(doc_ids)
+        ]

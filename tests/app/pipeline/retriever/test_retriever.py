@@ -1,5 +1,5 @@
 import pytest
-from app.pipeline.retriever import Retriever
+from app.pipeline.retriever.custom_retriever import Retriever
 
 @pytest.fixture
 def retriever():
