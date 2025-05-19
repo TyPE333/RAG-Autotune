@@ -1,6 +1,7 @@
 from app.pipeline.feedback.logger import FeedbackLogger
+from scripts.utils.config import CONFIG
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import PointIdsList
+from qdrant_client.http import models
 from typing import List, Dict, Tuple
 
 
@@ -12,22 +13,31 @@ def sample_positive_pairs(n: int = 100) -> List[Tuple[str, str]]:
     logger = FeedbackLogger()
     return logger.sample_positive_pairs(n)
 
-
 def fetch_doc_texts(client: QdrantClient, doc_ids: List[str], collection_name: str) -> Dict[str, str]:
-    """
-    Fetch document texts from Qdrant using the document IDs.
-    Returns: {doc_id: text}
-    """
-    response = client.retrieve(
-        collection_name=collection_name,
-        ids=PointIdsList(doc_ids),
-        with_payload=True
-    )
-    return {
-        str(doc.id): doc.payload["text"]
-        for doc in response
-        if "text" in doc.payload
-    }
+    id_to_text = {}
+
+    for doc_id in doc_ids:
+        scroll_result, _ = client.scroll(
+            collection_name=collection_name,
+            scroll_filter=models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="doc_id",
+                        match=models.MatchValue(value=doc_id)
+                    )
+                ]
+            ),
+            limit=1,
+            with_payload=True,
+            with_vectors=False
+        )
+
+        if scroll_result:
+            payload = scroll_result[0].payload
+            if "text" in payload:
+                id_to_text[doc_id] = payload["text"]
+
+    return id_to_text
 
 
 def get_query_text_pairs(n: int = 100, collection_name: str = "retriever_qa") -> List[Tuple[str, str]]:
@@ -41,7 +51,7 @@ def get_query_text_pairs(n: int = 100, collection_name: str = "retriever_qa") ->
 
     doc_ids = [doc_id for _, doc_id in pairs]
 
-    client = QdrantClient(path="qdrant_storage")  # or use `url="..."` if remote
+    client = QdrantClient(url=CONFIG.get("Qdrant.url"))
     id_to_text = fetch_doc_texts(client, doc_ids, collection_name)
 
     query_text_pairs = [
