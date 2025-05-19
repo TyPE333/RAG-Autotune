@@ -49,8 +49,8 @@ Key components:
 - ✅ Dual-encoder retriever using Qdrant ANN search
 - ✅ Dataset chunking, encoding, and embedding to vector store
 - 🟡 Stubbed generator with citation formatting
-- 🟡 SQLite feedback logging with 1-hour deduplication
-- ⬜ LoRA fine-tuning and shadow embedding
+- ✅ SQLite feedback logging with deduplication and edge-case handling
+- 🟡 LoRA fine-tuning prep (tokenization pipeline, contrastive dataset, Qdrant fetch)
 - ⬜ Zero-downtime collection promotion using Qdrant aliases
 - ⬜ Real-time monitoring dashboards with Weights & Biases + Streamlit
 - ✅ GitHub Actions CI pipeline and fast test harness
@@ -91,7 +91,7 @@ make test
 | ---- | --------------------------------------------------------- | ------------- |
 | FR‑1 | Expose `/ask`, `/feedback`, `/health`                     | ✅             |
 | FR‑2 | Retrieve → (Optionally Rerank) → Generate → Stream answer | ✅ (Retriever) |
-| FR‑3 | Log user feedback with dedupe                             | ⬜             |
+| FR‑3 | Log user feedback with dedupe                             | ✅             | 
 | FR‑4 | Nightly fine‑tune & re‑embed corpus                       | ⬜             |
 | FR‑5 | Smoke‑test + zero‑downtime alias swap                     | ⬜             |
 
@@ -105,9 +105,9 @@ make test
 | ------------------- | ----------- | --------------------------------------- | ------ |
 | 1 · Service Setup   | ✅ Day 3     | API endpoints, LangGraph stub, CI       | ✅      |
 | 2 · Retriever       | ✅ Day 5     | Embed corpus, real retrieval via Qdrant | ✅      |
-| 3 · Loop            | Day 7       | Feedback logging + fine-tune job        | 🔄     |
-| 4 · Observability   | Day 11      | Streamlit + W\&B dashboards             | ⬜      |
-| 5 · Polish & Launch | Day 14      | CI badge, blog post, GitHub release     | ⬜      |
+| 3 · Loop            | Day 12       | Feedback logging + fine-tune prep       | 🟡
+| 4 · Observability   | Day 16      | Streamlit + W\&B dashboards             | ⬜      |
+| 5 · Polish & Launch | Day 20      | CI badge, blog post, GitHub release     | ⬜      |
 
 ---
 
