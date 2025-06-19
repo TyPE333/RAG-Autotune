@@ -74,18 +74,6 @@ make test
 
 ---
 
-## Roadmap
-
-| Phase               | Target Date | Deliverable                             | Status |
-| ------------------- | ----------- | --------------------------------------- | ------ |
-| 1 · Service Setup   | ✅ Day 3     | API endpoints, LangGraph stub, CI       | ✅      |
-| 2 · Retriever       | ✅ Day 5     | Embed corpus, real retrieval via Qdrant | ✅      |
-| 3 · Loop            | Day 12       | Feedback logging + fine-tune prep       | 🟡
-| 4 · Observability   | Day 16      | Streamlit + W\&B dashboards             | ⬜      |
-| 5 · Polish & Launch | Day 20      | CI badge, blog post, GitHub release     | ⬜      |
-
----
-
 ## Contributing
 
 PRs are welcome after Phase 3. Please run `make format` and `make test` before submitting.
