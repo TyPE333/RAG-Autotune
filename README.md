@@ -41,21 +41,6 @@ Key components:
 - **Smoke-Test Gate** with auto-promotion/rollback
 - **Monitoring Dashboard** (W&B + Streamlit)
 
----
-
-## Features (in progress)
-
-- ✅ `/ask`, `/feedback`, `/health` endpoints via FastAPI
-- ✅ Dual-encoder retriever using Qdrant ANN search
-- ✅ Dataset chunking, encoding, and embedding to vector store
-- 🟡 Stubbed generator with citation formatting
-- ✅ SQLite feedback logging with deduplication and edge-case handling
-- 🟡 LoRA fine-tuning prep (tokenization pipeline, contrastive dataset, Qdrant fetch)
-- ⬜ Zero-downtime collection promotion using Qdrant aliases
-- ⬜ Real-time monitoring dashboards with Weights & Biases + Streamlit
-- ✅ GitHub Actions CI pipeline and fast test harness
-
----
 
 ## Getting Started
 
@@ -84,16 +69,6 @@ make test
 ```
 
 ---
-
-## Functional Requirements (v1 Progress)
-
-| ID   | Requirement                                               | Status        |
-| ---- | --------------------------------------------------------- | ------------- |
-| FR‑1 | Expose `/ask`, `/feedback`, `/health`                     | ✅             |
-| FR‑2 | Retrieve → (Optionally Rerank) → Generate → Stream answer | ✅ (Retriever) |
-| FR‑3 | Log user feedback with dedupe                             | ✅             | 
-| FR‑4 | Nightly fine‑tune & re‑embed corpus                       | ⬜             |
-| FR‑5 | Smoke‑test + zero‑downtime alias swap                     | ⬜             |
 
 [System Design & FR details (Google Doc)](https://docs.google.com/document/d/18SFZ9XuLBKdqYlIcdq99bkPmqZKkrWld9A9WuPLw1ys/edit?usp=sharing)
 
